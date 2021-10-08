@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:uuid_enhanced/uuid.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:graphql/src/websocket/messages.dart';
 
@@ -274,7 +274,9 @@ class SocketClient {
   /// In case of socket disconnection, the returned stream will be closed.
   Stream<SubscriptionData> subscribe(
       final SubscriptionRequest payload, final bool waitForConnection) {
-    final String id = Uuid.randomUuid(random: randomBytesForUuid).toString();
+    var uuid = new Uuid();
+    final String id =
+        uuid.v4(options: {'random': randomBytesForUuid}).toString();
     final StreamController<SubscriptionData> response =
         StreamController<SubscriptionData>();
     StreamSubscription<SocketConnectionState> sub;
